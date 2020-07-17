@@ -28,8 +28,8 @@ export default {
     props: ['todo'],
     
     methods: {
-        deleteTodo(delTodo) {
-            
+        //delete Todo frame with all of tasks
+        deleteTodo(delTodo) { 
             let todos;
             if (localStorage.getItem('todos')) {
                 try {
@@ -41,19 +41,18 @@ export default {
             todos = todos.filter(todo => {
                 return todo.taskName !== delTodo.taskName;
             });
-            
-
             const parsed = JSON.stringify(todos);
             localStorage.setItem('todos', parsed);
         },
+        // delete one of task in Todo frame
         deleteTask(todo, taskText) {
              this.todo.tasks = this.todo.tasks.filter(task => {
                 return task.title !== taskText;
             });
             this.saveTodos();
         },
+        //mark task as done
         completeTask(todo, taskText) {
-            
             this.todo.tasks =  this.todo.tasks.map(task => {
                 if(task.title === taskText) {
                 task.done = !task.done;
@@ -62,6 +61,7 @@ export default {
             });
             this.saveTodos();
         },
+        //swap todo name and input for further editing
         changeTask(todo, taskText) {
             this.todo.tasks = this.todo.tasks.map(task => {
                 if(task.title === taskText) {
@@ -70,9 +70,11 @@ export default {
                 return task;
             })
         },
+        //swap task name and input for further editing
         changeTitle(todo) {
             this.todo.isEditing = !this.todo.isEditing;
         },
+        //swap input value to text frame (for todo name)
         editTask(todo, taskText, editValue) {
             this.todo.tasks = this.todo.tasks.map(task => {
                 if(task.title === taskText) {
@@ -83,11 +85,13 @@ export default {
             });
             this.saveTodos();
         },
+        //swap input value to text frame (for task name)
         editTitle(todo, taskText, editValue) {
             this.todo.taskName = editValue;
             this.todo.isEditing = !this.todo.isEditing;
             this.saveTodos();
         },
+        // update todos in local storage 
         saveTodos() {
             let todos;
             if (localStorage.getItem('todos')) {

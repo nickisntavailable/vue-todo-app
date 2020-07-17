@@ -18,6 +18,7 @@ export default {
     CreateTodo,
   },
   mounted() {
+    //getting todos in local storage if it contains atleast one
     if (localStorage.getItem('todos')) {
         try {
             this.todos = JSON.parse(localStorage.getItem('todos'));
@@ -53,6 +54,7 @@ export default {
         
         
     },
+    //updating todos in local storage
     saveTodos() {
         const parsed = JSON.stringify(this.todos);
         localStorage.setItem('todos', parsed);

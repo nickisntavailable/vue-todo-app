@@ -7,37 +7,15 @@
 
 <script>
 
-import TaskList from './components/task-list.vue';
-import TodoList from './components/todo-list.vue';
 
 export default {
   name: 'App',
-  components: {
-    TaskList,
-    TodoList,
-  },
   data() {
     return {
       appName: 'Simple ToDo App',
-      todos: [
-         
+      todos: [ 
       ]
     };
-  },
-  mounted() {
-    if (localStorage.getItem('todos')) {
-      try {
-        this.todos = JSON.parse(localStorage.getItem('todos'));
-      } catch(e) {
-        localStorage.removeItem('todos');
-      }
-    }
-  },
-  methods: {
-    saveTodos() {
-      const parsed = JSON.stringify(this.todos);
-      localStorage.setItem('todos', parsed);
-    }
   }
   
 }

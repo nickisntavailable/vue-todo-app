@@ -60,12 +60,9 @@ export default {
             return task.title !== ''
         });
         if(this.tasks.length)
-        console.log('tasks ', this.tasks);
         if (this.titleText.length > 0) {
             const taskName = this.titleText;
             const tasks = this.tasks;
-
-            // console.log(title, tasks);
 
             this.$emit('create-todo', {
               taskName,
@@ -89,16 +86,13 @@ export default {
         });
     },
     deleteTask(index) {
-        console.log(index);
         this.tasks.splice(index, 1);
-        console.log(this.tasks);
     }
   },
 };
 </script>
 
 <style>
-/* @import "../../node_modules/font-awesome/css/font-awesome.css"; */
 
 * {
     box-sizing: border-box;

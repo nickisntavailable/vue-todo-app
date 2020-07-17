@@ -20,7 +20,7 @@
             </div>
             <div class="buttons">
                 <button>
-                    <router-link :to="{name: 'task', params: {todo: todo} } " >Change</router-link>
+                    <router-link :to="{name: 'task', params: {todo: todo} } "  class="link">Change</router-link>
                 </button>
                 <button @click="deleteTodo">Delete</button>
             </div>
@@ -101,6 +101,10 @@
     flex-shrink: 0;
     width: 100%;
     display: flex;
+}
+.card .buttons .link {
+    text-decoration: none;
+    color: #000;
 }
 
 .card .buttons :first-child {

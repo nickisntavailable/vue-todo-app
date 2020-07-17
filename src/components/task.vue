@@ -1,7 +1,7 @@
 <template>
     <div class="tasks-wrapper">
         
-        <router-link to="/"  class="link-home">
+        <router-link  to="/"  class="link-home" @click.native="checkSaved">
             <i class="fa fa-angle-left" aria-hidden="true"></i>
             <span>HOME</span>
         </router-link>
@@ -11,8 +11,9 @@
                 v-model="editValue"
                 @keyup.enter="editTitle(todo, todo.taskName, editValue)"
             >
-            <h1 v-else>{{todo.taskName}}</h1>
+            <h2 v-else>{{todo.taskName}}</h2>
             <i class="fa fa-pencil-square-o" @click="changeTitle(todo)"></i>
+            <i class="fa fa-times" @click="deleteTodo(todo)"></i>
         </div>
         <ul>
             <li v-for="task in todo.tasks" :key="task.title">
@@ -40,37 +41,44 @@
                 <i class="fa fa-plus" @click="addTask"></i>
             </button>
         </div>
-        <div class="save">
-            <button v-if="isChanged">
-                Save
-            </button>
-            <button v-if="isChanged"  @click="undoClk">
-                Undo
-            </button>
-        </div>
     </div>
 </template>
 
 <script>
-
+import sweetalert from 'sweetalert';
 
 
 export default {
     data() {
         return {
             editValue: '',
-            isChanged: false,
-            isSaved: false,
-            undoTodo: [],
-            doTodo: [],
+            
         }
     },
     props: ['todo'],
     methods: {
-        undoClk() {
-
+        deleteTodo(todo) {
+            sweetalert({
+                title: 'Are you sure?',
+                text: 'This To-Do will be permanently deleted!',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            })
+            .then ((willDelete) => {
+                if(willDelete) {
+                    sweetalert({
+                        title: 'Poof! Your imaginary file has been deleted!',
+                        icon: "success",
+                    });
+                    this.$emit('delete-todo', todo);
+                    this.$router.push('/');
+                }
+            })
+            
         },
         addTask() {
+
             this.todo.tasks = this.todo.tasks.concat({
                 title: '',
                 done: false,
@@ -78,11 +86,10 @@ export default {
             });
         },
         deleteTask(todo, title) {
+
             this.$emit('delete-task', todo, title);
         },
         completeTask(todo, title) {
-
-            // console.log("isChanged", this.prevTodo);
             this.$emit('complete-task', todo, title);
         },
         changeTask(todo, title) {
@@ -95,7 +102,6 @@ export default {
         },
         changeTitle(todo) {
             this.$emit('change-title', todo);
-            
             if(this.editValue.length == 0) {
                 this.editValue=todo.taskName;
             } else {
@@ -110,7 +116,7 @@ export default {
         editTitle(todo, title, editValue) {
             this.$emit('edit-title',todo, title, editValue);
             this.editValue='';
-        }
+        },
     }
 }
 

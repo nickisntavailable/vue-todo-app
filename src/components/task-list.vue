@@ -3,6 +3,7 @@
         <task 
             v-bind:todo="todo"
             v-on:delete-task="deleteTask"
+            v-on:delete-todo="deleteTodo"
             v-on:complete-task="completeTask"
             v-on:change-task="changeTask"
             v-on:edit-task="editTask"
@@ -19,12 +20,32 @@
 import Task from './task.vue';
 
 
+
 export default {
     components: {
         Task,
     },
     props: ['todo'],
+    
     methods: {
+        deleteTodo(delTodo) {
+            
+            let todos;
+            if (localStorage.getItem('todos')) {
+                try {
+                    todos = JSON.parse(localStorage.getItem('todos'));
+                } catch(e) {
+                    localStorage.removeItem('todos');
+                }
+            }
+            todos = todos.filter(todo => {
+                return todo.taskName !== delTodo.taskName;
+            });
+            
+
+            const parsed = JSON.stringify(todos);
+            localStorage.setItem('todos', parsed);
+        },
         deleteTask(todo, taskText) {
              this.todo.tasks = this.todo.tasks.filter(task => {
                 return task.title !== taskText;
@@ -32,6 +53,7 @@ export default {
             this.saveTodos();
         },
         completeTask(todo, taskText) {
+            
             this.todo.tasks =  this.todo.tasks.map(task => {
                 if(task.title === taskText) {
                 task.done = !task.done;

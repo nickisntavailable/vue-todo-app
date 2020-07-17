@@ -53,9 +53,8 @@ export default {
     closeForm() {
       this.isCreating = false;
     },
+    //make new frame of Todo
     sendForm() {
-
-
         this.tasks = this.tasks.filter(task => {
             return task.title !== ''
         });
@@ -77,6 +76,7 @@ export default {
             this.isCreating = false;
       }
     },
+    //add additional task in todo while creating it
     addTask() {
 
         this.tasks = this.tasks.concat({
